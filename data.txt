@@ -1,0 +1,132 @@
+{
+  "modules": [
+    {
+      "id": "m1",
+      "name": "Computer Science 101",
+      "sections": {
+        "videos": {
+          "topics": [
+            {
+              "id": "t1-v",
+              "name": "Week 1 - Introduction",
+              "items": [
+                {
+                  "id": "v1",
+                  "title": "What is Computer Science?",
+                  "url": "https://www.youtube.com/watch?v=8hly6z2z2z2"
+                },
+                {
+                  "id": "v2",
+                  "title": "History of Computing",
+                  "url": "https://www.youtube.com/watch?v=5tK-9M3v9vU"
+                }
+              ]
+            },
+            {
+              "id": "t2-v",
+              "name": "Week 2 - Programming Basics",
+              "items": [
+                {
+                  "id": "v3",
+                  "title": "Variables & Data Types",
+                  "url": "https://www.youtube.com/watch?v=Go2Q2Z8zQjE"
+                }
+              ]
+            }
+          ]
+        },
+        "files": {
+          "topics": [
+            {
+              "id": "t1-f",
+              "name": "Lecture Slides",
+              "items": [
+                {
+                  "id": "f1",
+                  "title": "Week 1 - Intro Slides.pdf",
+                  "url": "https://example.com/files/cs101-week1.pdf"
+                },
+                {
+                  "id": "f2",
+                  "title": "Course Syllabus.pdf",
+                  "url": "https://example.com/files/syllabus.pdf"
+                }
+              ]
+            }
+          ]
+        },
+        "websites": {
+          "topics": [
+            {
+              "id": "t1-w",
+              "name": "External Study Resources",
+              "items": [
+                {
+                  "id": "w1",
+                  "title": "MDN Web Docs (HTML, CSS, JS)",
+                  "url": "https://developer.mozilla.org"
+                },
+                {
+                  "id": "w2",
+                  "title": "freeCodeCamp",
+                  "url": "https://www.freecodecamp.org"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "name": "Calculus II",
+      "sections": {
+        "videos": {
+          "topics": [
+            {
+              "id": "t1-v2",
+              "name": "Integration Techniques",
+              "items": [
+                {
+                  "id": "v4",
+                  "title": "Integration by Parts",
+                  "url": "https://www.youtube.com/watch?v=8hly6z2z2z2"
+                }
+              ]
+            }
+          ]
+        },
+        "files": {
+          "topics": [
+            {
+              "id": "t1-f2",
+              "name": "Practice Problems",
+              "items": [
+                {
+                  "id": "f3",
+                  "title": "Worksheet 3.pdf",
+                  "url": "https://example.com/files/calc2-ws3.pdf"
+                }
+              ]
+            }
+          ]
+        },
+        "websites": {
+          "topics": [
+            {
+              "id": "t1-w2",
+              "name": "Helpful Tools",
+              "items": [
+                {
+                  "id": "w3",
+                  "title": "Desmos Graphing Calculator",
+                  "url": "https://www.desmos.com/calculator"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

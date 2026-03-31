@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniVault • Module Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR: Modules -->
+        <div class="w-72 bg-zinc-900 border-r border-zinc-800 flex flex-col">
+            <div class="p-6 border-b border-zinc-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-violet-600 rounded-2xl flex items-center justify-center text-2xl">📚</div>
+                    <h1 class="text-3xl font-bold tracking-tight">UniVault</h1>
+                </div>
+                <p class="text-zinc-400 text-sm mt-1">Your university modules, all in one place.</p>
+            </div>
+
+            <div class="p-4 flex-1 overflow-auto">
+                <div class="flex items-center justify-between mb-4 px-2">
+                    <h2 class="text-lg font-semibold text-violet-300">Modules</h2>
+                    <button onclick="addModule()" 
+                            class="flex items-center gap-2 bg-violet-600 hover:bg-violet-500 px-4 py-2 rounded-2xl text-sm font-medium transition">
+                        <span class="text-xl leading-none">+</span>
+                        <span>New Module</span>
+                    </button>
+                </div>
+
+                <ul id="modules-list" class="space-y-1"></ul>
+            </div>
+
+            <!-- Sidebar footer -->
+            <div class="p-4 border-t border-zinc-800 text-xs text-zinc-400 flex items-center justify-between">
+                <div>
+                    Data stored locally • <span id="last-saved" class="text-emerald-400">Just now</span>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="downloadJSON()" 
+                            class="hover:text-white transition flex items-center gap-1">
+                        <span>↓</span> JSON
+                    </button>
+                    <label class="cursor-pointer hover:text-white transition flex items-center gap-1">
+                        ↑ JSON
+                        <input type="file" id="upload-json" accept=".json" class="hidden" onchange="loadJSONFile(event)">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 flex flex-col">
+            
+            <!-- Top bar -->
+            <div id="module-header" class="h-16 border-b border-zinc-800 bg-zinc-900 px-8 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="goBackToModules()" 
+                            class="lg:hidden text-3xl text-zinc-400 hover:text-white">←</button>
+                    <h2 id="current-module-name" onclick="editModuleName()" 
+                        class="text-2xl font-semibold cursor-pointer hover:text-violet-300 transition flex items-center gap-2">
+                        <!-- Dynamic -->
+                    </h2>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <!-- Section tabs -->
+                    <div id="section-tabs" class="flex bg-zinc-800 rounded-3xl p-1 text-sm font-medium"></div>
+
+                    <div class="flex items-center gap-2 text-zinc-400">
+                        <div onclick="resetToSampleData()" class="cursor-pointer hover:text-white text-xs flex items-center gap-1">
+                            <span>⟳</span> Reset sample
+                        </div>
+                        <div class="w-px h-3 bg-zinc-700"></div>
+                        <a href="#" onclick="showHelp()" class="hover:text-white text-xs flex items-center gap-1">
+                            <span>?</span> Help
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content area -->
+            <div id="main-content" class="flex-1 overflow-auto p-8">
+                <!-- Dynamically filled by JS -->
+                <div id="no-module-selected" class="flex flex-col items-center justify-center h-full text-center">
+                    <div class="text-7xl mb-6">📂</div>
+                    <h3 class="text-2xl font-semibold mb-2">Select a module to begin</h3>
+                    <p class="text-zinc-400 max-w-xs">All your videos, lecture files, and study links live inside folders per module.</p>
+                    <button onclick="addModule()" 
+                            class="mt-8 bg-white text-zinc-900 px-8 py-4 rounded-3xl font-semibold flex items-center gap-3 hover:scale-105 transition">
+                        <span class="text-2xl">✚</span>
+                        Create your first module
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Universal modal container -->
+    <div id="modal-backdrop" onclick="if(event.target.id==='modal-backdrop')hideModal()" 
+         class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
+        
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-zinc-900 rounded-3xl w-full max-w-lg mx-4 shadow-2xl">
+            
+            <div id="modal-content" class="p-8">
+                <!-- Filled by JS depending on what is being edited -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Video player modal (separate because it's large) -->
+    <div id="video-modal" onclick="if(event.target.id==='video-modal')hideVideoModal()" 
+         class="hidden fixed inset-0 bg-black/95 z-[100] flex items-center justify-center">
+        <div class="w-full max-w-5xl mx-4">
+            <div class="flex justify-end mb-4">
+                <button onclick="hideVideoModal()" class="text-white text-4xl leading-none hover:scale-110 transition">×</button>
+            </div>
+            <div id="video-player-container" class="aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl">
+                <!-- iframe inserted here by JS -->
+            </div>
+            <p id="video-modal-title" class="text-white text-xl mt-4 text-center font-medium"></p>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" onclick="this.classList.add('hidden')" 
+         class="hidden fixed bottom-6 right-6 bg-emerald-600 text-white px-6 py-4 rounded-3xl shadow-2xl flex items-center gap-3">
+        <span id="toast-text" class="font-medium"></span>
+    </div>
+</body>
+</html>
